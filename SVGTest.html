@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Animated Logo Demo</title>
+<style>
+  body {
+    background: #0e0e0e;
+    padding: 40px;
+    font-family: system-ui, sans-serif;
+  }
+
+  /* Logo container */
+  .logo {
+    width: 64px;
+    cursor: pointer;
+  }
+
+  /* Base pixel style */
+  .pixel {
+    transition:
+      transform 220ms cubic-bezier(.2,.8,.2,1),
+      opacity 220ms ease;
+    transform-origin: center;
+  }
+
+  
+  /* ---------- HOVER SCATTER ---------- */
+  .logo:hover .scatter-1 { transform: translate(1px, -15px); }
+  .logo:hover .scatter-2 { transform: translate(13px, -20px); }
+  .logo:hover .scatter-3 { transform: translate(12px, 2px); }
+
+  /* ---------- REDUCED MOTION ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    .pixel {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<!-- LOGO -->
+<svg
+  class="logo"
+  viewBox="0 0 120 120"
+  xmlns="http://www.w3.org/2000/svg"
+  aria-label="Home"
+  role="img"
+>
+  <!-- N -->
+  <path
+    d="M20 20 V100 H38 V52 L78 100 H96 V20 H78 V68 L38 20 Z"
+    fill="#17FBF7"
+  />
+
+  <!-- Pixels -->
+    <rect class="static" x="86" y="20" width="10" height="10" fill="#6d6c6c"/>
+    <rect class="pixel idle-1 scatter-1" x="85" y="20" width="10" height="10" fill="#17FBF7"/>
+    <rect class="pixel idle-2 scatter-2" x="86" y="20" width="10" height="10" fill="#17FBF7"/>
+    <rect class="pixel idle-3 scatter-3" x="86" y="20" width="10" height="10" fill="#17FBF7"/>
+  
+</svg>
+
+</body>
+</html>

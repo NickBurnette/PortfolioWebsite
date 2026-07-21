@@ -1,0 +1,56 @@
+<svg viewBox="0 0 800 600" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Sky Gradient -->
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FF7E5F" />
+      <stop offset="40%" stop-color="#FEB47B" />
+      <stop offset="100%" stop-color="#FFECCC" />
+    </linearGradient>
+
+    <!-- Sun Glow Filter -->
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="30" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+
+  <!-- Sky -->
+  <rect width="800" height="600" fill="url(#skyGrad)" />
+
+  <!-- Sun -->
+  <circle cx="400" cy="350" r="120" fill="#FFF7E6" filter="url(#glow)" />
+  <circle cx="400" cy="350" r="90" fill="#FFFFFF" />
+
+  <!-- Distant Mountains -->
+  <path d="M0 450 L250 280 L500 420 L800 250 L800 600 L0 600 Z" fill="#6A4C75" opacity="0.7" />
+
+  <!-- Midground Mountains -->
+  <path d="M0 500 L180 350 L420 480 L650 320 L800 400 L800 600 L0 600 Z" fill="#4A2840" />
+
+  <!-- Foreground Hills -->
+  <path d="M0 550 Q 200 420, 450 520 T 800 480 L 800 600 L 0 600 Z" fill="#2B1B29" />
+
+  <!-- Silhouette Trees -->
+  <g fill="#1D121B">
+    <!-- Tree 1 -->
+    <polygon points="150,550 135,520 165,520" />
+    <polygon points="150,525 130,490 170,490" />
+    <rect x="145" y="550" width="10" height="20" />
+    
+    <!-- Tree 2 -->
+    <polygon points="680,580 660,540 700,540" />
+    <polygon points="680,550 650,510 710,510" />
+    <polygon points="680,520 645,480 715,480" />
+    <rect x="672" y="580" width="16" height="30" />
+  </g>
+
+  <!-- Stars / Birds in the upper sky -->
+  <g fill="#FFFFFF" opacity="0.6">
+    <circle cx="100" cy="150" r="2" />
+    <circle cx="250" cy="100" r="3" />
+    <circle cx="650" cy="120" r="2" />
+    <circle cx="720" cy="200" r="3" />
+    <path d="M300 120 Q 305 110, 310 120 Q 315 110, 320 120" stroke="#FFFFFF" stroke-width="1.5" fill="none" />
+    <path d="M325 125 Q 330 115, 335 125 Q 340 115, 345 125" stroke="#FFFFFF" stroke-width="1.5" fill="none" />
+  </g>
+</svg>

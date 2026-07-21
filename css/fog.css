@@ -1,0 +1,64 @@
+.background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: -10;
+    /* background-image: url('../img/hero-bg.jpg'); */
+    background-image: url('../img/MountainBackground.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    pointer-events: none;
+}
+#fog {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    background: transparent;
+    z-index: -1;
+}
+.fog-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100%;
+    overflow: visible;
+    z-index: -1;
+    pointer-events: none;
+}
+.fog-img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-repeat: repeat; /* tiles in both axes; repeat-x also works */
+    background-position: 0 0;
+    background-size: auto; /* allow tiling vertically/horizontally */
+    pointer-events: none;
+}
+.fog-img-1 {
+    z-index: -1;
+    background-image: url('../img/fog1.png');
+    opacity: 1;
+    animation: fog-move-1 600s linear infinite;
+}
+.fog-img-2 {
+    z-index: -1;
+    background-image: url('../img/fog2.png');
+    opacity: 1;
+    animation: fog-move-2 1000s linear infinite;
+}
+@keyframes fog-move-1 {
+    0% { background-position: 0 0; }
+    50%   { background-position: -10000px 0; }
+    100% { background-position: 0 0; }
+}
+@keyframes fog-move-2 {
+    0% { background-position: 0 0; }
+    50%   { background-position: -10000px 0; }
+    100% { background-position: 0 0; }
+}

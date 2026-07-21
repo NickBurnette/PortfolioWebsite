@@ -1,132 +1,1046 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="utf-8">
-	<title>Nick Burnette</title>
-	<meta name="description" content="Web & Software deveoper portfolio, I am fascinated with a number of different programming languages such as HTML5, CSS3, JavaScript, Java, C++, Autoit and many more.">
-	<meta name="author" content="Nick Burnette" />
-	<link rel="stylesheet" media="screen" href="css/style.css">
-	<link rel="stylesheet" href="css/style1.css">
-	<link rel="stylesheet" href="css/NavAbove.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nick Burnette</title>
+  <link rel="stylesheet" href="css/fog.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* Main css */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+:root{
+	/* ── COLORS ── */
+	--primary-color: #6d6c6c;
+	--text-color: #e8e0d5;
+	--text-muted: rgba(232,224,213,0.6);
+	--text-faint: rgba(232,224,213,0.35);
+	--border: rgba(232,224,213,0.1);
+
+	--accent-color: rgb(212, 147, 90);
+	--accent-dim: rgba(212, 147, 90, 0.15);
+	--accent-border: rgba(212, 147, 90, 0.3);
+	--accent-shadow: rgba(212, 147, 90, 0.2);
+
+	--background-color: rgb(26, 23, 20);
+	--transparent-bg-color: rgba(0, 0, 0, 0.7); /* not used */
+
+  --nav-background: rgba(26, 23, 20, 0.75);
+  --logo-corner: rgba(26, 23, 20, 1); /* used for the static corner pixel in the logo. Needs to make nav-background without opacity */
+
+	/* ── FONTS ── */
+	/* Swap these to re-theme typography sitewide. Update the Google Fonts
+	   <link> in <head> if you choose fonts not already loaded. */
+	--font-display: system-ui, serif;   /* headings, names, metrics */
+	--font-body: 'DM Sans', sans-serif;   /* body text, nav, buttons */
+
+	/* ── LAYOUT ── */
+	--nav-h: 60px;
+	--filter-h: 64px;
+}
+html {
+	scroll-behavior: smooth;
+	height: 100%;
+}
+body {
+	background: var(--background-color);
+	color: var(--text-color);
+	font-family: var(--font-body);
+	font-weight: 300;
+	overflow-x: hidden;
+}
+.hero {
+	position: relative;
+	height: 100vh;
+	min-height: 600px;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+}
+.hero-bg { 
+	display: none; 
+}
+.hero-overlay {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+	to bottom,
+	rgba(26,23,20,0.1) 0%,
+	rgba(26,23,20,0.0) 35%,
+	rgba(26,23,20,0.65) 78%,
+	rgba(26,23,20,1) 100%
+	);
+}
+.hero-content {
+	position: relative;
+	z-index: 2;
+	padding: 0 2.5rem;
+	max-width: 860px;
+}
+.hero-eyebrow {
+	font-size: 0.9rem;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	color: var(--accent-color);
+	margin-bottom: 1.25rem;
+	opacity: 0;
+	animation: fadeUp 0.6s ease forwards 0.3s;
+}
+.hero-name {
+	font-family: var(--font-display);
+	font-size: clamp(3rem, 7vw, 5.5rem);
+	line-height: 1.05;
+	color: #f5ede3;
+	margin-bottom: 1.5rem;
+	letter-spacing: -0.02em;
+	opacity: 0;
+	animation: fadeUp 0.7s ease forwards 0.5s;
+	/* height is set dynamically by JS before typing starts */
+}
+.hero-name em { 
+	font-style: italic; 
+  color: var(--accent-color); 
+  font-weight: 300;
+}
+.hero-tagline {
+	font-size: 1rem;
+	line-height: 1.8;
+	color: rgba(232,224,213,0.75);
+	max-width: 580px;
+	font-weight: 300;
+	border-left: 2px solid var(--accent-color);
+	padding-left: 1.25rem;
+	opacity: 0;
+	animation: fadeUp 1s ease forwards 0.9s;
+}
+.typed-cursor {
+	display: inline-block;
+	width: 3px; height: 0.85em;
+	background: var(--accent-color);
+	margin-left: 4px;
+	vertical-align: middle;
+	animation: blink 0.9s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes fadeUp {
+	from { opacity:0; transform: translateY(16px); }
+	to   { opacity:1; transform: translateY(0); }
+}
+.scroll-hint {
+	position: absolute;
+	bottom: 2rem; left: 50%;
+	transform: translateX(-50%);
+	z-index: 2;
+	display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+	opacity: 0;
+	animation: fadeUp 0.6s ease forwards 2s;
+}
+.scroll-hint span { 
+	font-size: 0.65rem; 
+	letter-spacing: 0.15em; 
+	text-transform: uppercase; 
+	color: var(--text-faint); 
+}
+.scroll-line { 
+	width: 1px; 
+	height: 40px; 
+	background: linear-gradient(to bottom, var(--accent-color), transparent); 
+	animation: scrollPulse 2s ease-in-out infinite; 
+}
+@keyframes scrollPulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+#filterBar {
+	position: sticky;
+	top: var(--nav-h);
+	z-index: 150;
+	background: var(--nav-background);
+	backdrop-filter: blur(16px);
+	border-bottom: 0.5px solid rgba(232,224,213,0.1);
+	padding: 0 2.5rem;
+	height: var(--filter-h);
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	overflow-x: auto;
+	scrollbar-width: none;
+	box-shadow: 0 1px 0 0 var(--accent-shadow);
+	/* Negative margins extend it edge-to-edge inside the padded section */
+	margin: -3.5rem -2.5rem 2.5rem;
+}
+#filterBar::-webkit-scrollbar { 
+	display: none; 
+}
+.filter-divider {
+	width: 0.5px;
+	height: 20px;
+	background: var(--border);
+	flex-shrink: 0;
+	margin: 0 0.25rem;
+}
+.filter-label {
+	font-size: 0.65rem;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--text-faint);
+	white-space: nowrap;
+	flex-shrink: 0;
+	margin-right: 0.25rem;
+}
+.skill-tag {
+	background: var(--accent-dim);
+	border: 0.5px solid var(--accent-border);
+	color: var(--accent-color);
+	padding: 0.3rem 0.85rem;
+	border-radius: 2rem;
+	font-size: 0.78rem;
+	font-weight: 400;
+	letter-spacing: 0.03em;
+	cursor: pointer;
+	transition: background 0.18s, border-color 0.18s, transform 0.15s;
+	user-select: none;
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+.skill-tag:hover { transform: translateY(-1px); }
+.skill-tag.active {
+	background: var(--accent-color);
+	color: #1a1714;
+	border-color: var(--accent-color);
+	font-weight: 500;
+}
+.skill-tag.familiar {
+	background: rgba(232,224,213,0.05);
+	border-color: rgba(232,224,213,0.12);
+	color: var(--text-faint);
+}
+.skill-tag.familiar.active {
+	background: var(--accent-color);
+	color: #1a1714;
+	border-color: var(--accent-color);
+}
+.section {
+  padding: 4.5rem 2.5rem;
+  position: relative;
+  background: rgba(20,17,14,0.72);
+  backdrop-filter: blur(2px);
+}
+.section-bg { 
+	display: none; 
+}
+.section-content { 
+	position: relative; 
+	z-index: 1; 
+	max-width: 1100px; 
+	margin: 0 auto; 
+}
+.section-label {
+	font-size: 0.9rem;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	color: var(--accent-color);
+	margin-bottom: 0.1rem;
+	font-weight: 500;
+}
+#projectsSection { 
+	padding-top: 3rem; 
+}
+.filter-active-hint {
+	font-size: 0.78rem;
+	color: var(--text-faint);
+	margin-bottom: 1.5rem;
+	font-style: italic;
+	min-height: 1.2em;
+}
+.filter-active-hint a { 
+	color: var(--accent-color); 
+	text-decoration: none; 
+}
+.no-projects-msg {
+	display: none;
+	margin-bottom: 1.5rem;
+	padding: 1.25rem 1.5rem;
+	background: var(--accent-dim);
+	border: 0.5px solid var(--accent-border);
+	border-radius: 10px;
+	font-size: 0.875rem;
+	line-height: 1.7;
+	color: var(--text-muted);
+}
+.no-projects-msg strong { color: var(--accent-color); font-weight: 500; }
+.no-projects-msg.visible { display: block; }
+.projects-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+	gap: 1.25rem;
+}
+.project-card {
+	background: rgba(34,31,27,0.88);
+	border: 0.5px solid var(--border);
+	border-radius: 12px;
+	padding: 1.75rem;
+	cursor: pointer;
+	transition: border-color 0.2s, transform 0.2s, opacity 0.3s, filter 0.3s;
+	position: relative;
+	overflow: hidden;
+	backdrop-filter: blur(6px);
+}
+.project-card::before {
+	content: '';
+	position: absolute;
+	top: 0; left: 0; right: 0;
+	height: 2px;
+	background: var(--accent-color);
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+.project-card:hover { 
+	border-color: var(--accent-border); 
+	transform: translateY(-3px); 
+}
+.project-card:hover::before { 
+	opacity: 1; 
+}
+.project-card.dimmed { 
+	opacity: 0.18; 
+	filter: grayscale(0.4); 
+	pointer-events: none; 
+}
+.project-tech { 
+	display: flex; 
+	flex-wrap: wrap; 
+	gap: 0.35rem; 
+	margin-bottom: 1rem; 
+}
+.tech-badge {
+	font-size: 0.68rem; 
+	letter-spacing: 0.08em; 
+	text-transform: uppercase;
+	color: var(--text-faint); 
+	background: rgba(232,224,213,0.06);
+	padding: 0.18rem 0.55rem; 
+	border-radius: 2rem;
+	border: 0.5px solid transparent;
+	transition: color 0.2s, background 0.2s, border-color 0.2s;
+}
+.tech-badge.active-skill {
+	color: var(--accent-color);
+	background: var(--accent-dim);
+	border-color: var(--accent-border);
+}
+.project-title {
+	font-family: var(--font-display);
+	font-size: 1.2rem; 
+	font-weight: 400;
+	color: #f0e8dc; 
+	margin-bottom: 0.7rem; 
+	line-height: 1.3;
+}
+.project-summary {
+	font-size: 0.875rem; 
+	line-height: 1.75;
+	color: var(--text-muted); 
+	margin-bottom: 1.25rem;
+}
+.project-outcome {
+	display: flex; 
+	align-items: flex-start; 
+	gap: 0.6rem;
+	background: var(--accent-dim); 
+	border: 0.5px solid var(--accent-border);
+	border-radius: 8px; 
+	padding: 0.7rem 0.9rem; 
+	margin-bottom: 1.25rem;
+}
+.outcome-icon { 
+	color: var(--accent-color); 
+	font-size: 15px; 
+	margin-top: 1px; 
+	flex-shrink: 0; 
+}
+.outcome-text { 
+	font-size: 0.8rem; 
+	color: rgba(232,224,213,0.72); 
+	line-height: 1.5; 
+}
+.project-cta {
+	display: inline-flex; 
+	align-items: center; 
+	gap: 0.4rem;
+	font-size: 0.78rem; 
+	color: var(--accent-color); 
+	font-weight: 500;
+	letter-spacing: 0.05em; 
+	background: none; 
+  border: none;
+	cursor: pointer; 
+  padding: 0;
+	transition: gap 0.2s;
+	font-family: var(--font-body);
+}
+.project-cta:hover { 
+	gap: 0.7rem; 
+}
+#aboutSection { 
+	border-top: 0.5px solid var(--border); 
+}
+footer {
+	padding: 2rem 2.5rem;
+	border-top: 0.5px solid var(--border);
+	display: flex; 
+  justify-content: space-between; 
+  align-items: center;
+	flex-wrap: wrap; gap: 0.5rem;
+}
+.footer-text { 
+	font-size: 0.78rem; 
+	color: var(--text-faint); 
+}
+.footer-text a { 
+	color: var(--accent-color); 
+	text-decoration: none; 
+}
+#mainView.hidden { 
+	display: none; 
+}
+@media (max-width: 640px) {
+    nav, #filterBar { 
+		padding: 0 1.25rem; 
+	}
+    .hero-content, .section, footer { 
+		padding-left: 1.25rem; 
+		padding-right: 1.25rem; 
+	}
+    #detailView { 
+		padding-left: 1.25rem; 
+		padding-right: 1.25rem; 
+	}
+}
+    /* Main css */
+
+    /* Nav Above */
+  /* Navigation Bar Above */
+nav {
+	position: fixed;
+	top: 0; left: 0; right: 0;
+	height: var(--nav-h);
+	z-index: 200;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 1rem;
+	background: rgba(26,23,20,0.75);
+	backdrop-filter: blur(14px);
+	border-bottom: 0.5px solid rgba(232,224,213,0.08);
+}
+.nav-logo {
+	color: var(--text-color);
+	cursor: pointer;
+}
+/* Logo fills are set via CSS variables directly on each SVG element's
+   fill attribute (var(--accent-color), var(--primary-color)) so they
+   automatically follow palette changes in :root */
+.nav-links { 
+	display: flex; 
+	gap: 2rem; 
+	list-style: none; 
+}
+.nav-links a {
+	color: var(--text-muted);
+	text-decoration: none;
+	font-size: 1rem;
+	font-weight: 400;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	transition: color 0.2s;
+}
+.nav-links a:hover { 
+	color: var(--accent-color); 
+}
+/* Base pixel style */
+.pixel {
+	transition: transform 220ms cubic-bezier(.2,.8,.2,1), opacity 220ms ease;
+	transform-origin: center;
+}
+
+/* Scatter Effect */
+.logo:hover .scatter-1 { transform: translate(1px, -15px); }
+.logo:hover .scatter-2 { transform: translate(13px, -20px); }
+.logo:hover .scatter-3 { transform: translate(12px, 2px); }
+    /* Nav Above */
+
+    /* Detail View */
+#detailView {
+  display: none;
+  min-height: 100vh;
+  padding: calc(var(--nav-h) + 3rem) 2.5rem 4rem;
+  position: relative;
+  background: rgba(18,15,12,0.8);
+  backdrop-filter: blur(3px);
+}
+#detailView .detail-bg { 
+  display: none; 
+}
+#detailView.active { 
+  display: block; 
+}
+.detail-inner { 
+  position: relative; 
+  z-index: 1; 
+  max-width: 760px; 
+  margin: 0 auto; 
+}
+.back-btn {
+  display: inline-flex; 
+  align-items: center; 
+  gap: 0.5rem;
+  font-size: 0.72rem; 
+  color: var(--text-faint);
+  background: none; 
+  border: none; 
+  cursor: pointer; 
+  padding: 0;
+  margin-bottom: 3rem; 
+  font-family: var(--font-body);
+  letter-spacing: 0.1em; 
+  text-transform: uppercase; 
+  transition: color 0.2s;
+}
+.back-btn:hover { 
+  color: var(--accent-color); 
+}
+.detail-eyebrow { 
+  font-size: 0.9rem; 
+  letter-spacing: 0.2em; 
+  text-transform: uppercase; 
+  color: var(--accent-color); 
+  margin-bottom: 0.75rem; 
+}
+.detail-title { 
+  font-family: var(--font-display); 
+  font-size: clamp(1.8rem,4vw,2.8rem); 
+  font-weight: 300; 
+  color: #f5ede3; 
+  line-height: 1.15; 
+  margin-bottom: 1.25rem; 
+}
+.detail-stack { 
+  display: flex; 
+  flex-wrap: wrap; 
+  gap: 0.4rem; 
+  margin-bottom: 2.5rem; 
+}
+.detail-section-label { 
+  font-size: 0.68rem; 
+  letter-spacing: 0.18em; 
+  text-transform: uppercase; 
+  color: var(--accent-color); 
+  margin: 2.25rem 0 0.75rem; 
+}
+.detail-body { 
+  font-size: 0.95rem; 
+  line-height: 1.9; 
+  color: rgba(232,224,213,0.72); 
+  font-weight: 300; 
+}
+.metrics-row { 
+  display: grid; 
+  grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); 
+  gap: 0.85rem; 
+  margin-top: 2rem; 
+}
+.metric-card { 
+  background: var(--accent-dim); 
+  border: 0.5px solid var(--accent-border); 
+  border-radius: 10px; 
+  padding: 1.25rem 1.5rem; 
+}
+.metric-value { font-family: var(--font-display); 
+  font-size: 1.7rem; 
+  font-weight: 300; 
+  color: var(--accent-color); 
+  margin-bottom: 0.3rem; 
+  line-height: 1; 
+}
+.metric-label { 
+  font-size: 0.75rem; 
+  color: var(--text-faint); 
+  line-height: 1.4; 
+}
+footer {
+  background: var(--nav-background);
+}
+    /* Detail View */
+  </style>
 </head>
 <body>
-<div id="bigWrapper">
-	<div id="nav-above" role="complementary" class="border js-fullheight">
-		<div class="nav-logo"></div>
-		<nav id="main-menu" role="navigation">
-			<ul>
-				<div id="logo"><a href="index.html"><img src="img/logoHome.png" ;></a></div> <!--Resize to 60x75 in Illistrator-->
-				<li><a href="contact.html">Contact</a></li>
-				<li><a href="about.html">About</a></li>
-				<li><a href="projects.html">Projects</a></li>
-				<li class="active"><a href="index.html">Skills</a></li>
-			</ul>
-		</nav>
-	</div>
 
-	<div id="particles-js">
-		<div class="myText">
-			<div id="nameHolder">
-				<div id="my-name">
-					<h1>
-						<!-- Nick Burnette -->
-						<h5 class="growH5">N</h5>
-						<h5 class="growH5">i</h5>
-						<h5 class="growH5">c</h5>
-						<h5 class="growH5">k</h5>
-						<!-- space -->
-						<h5 class="growH5">&nbsp;</h5>
-
-						<h5 class="growH5">B</h5>
-						<h5 class="growH5">u</h5>
-						<h5 class="growH5">r</h5>
-						<h5 class="growH5">n</h5>
-						<h5 class="growH5">e</h5>
-						<h5 class="growH5">t</h5>
-						<h5 class="growH5">t</h5>
-						<h5 class="growH5">e</h5>
-					</h1>
-				</div>
-				<div id="my-title">
-					<h2>
-						<!-- Programmer, Web Developer -->
-						<span class="growH2"><i>Software</i></span>
-						<span>&nbsp;</span>
-						<span class="growH2"><i>Engineer</i></span>
-					</h2>
-				</div>
-			</div>
-		</div>
-	</div>
-
-	<div id="achevements-Wrapper">
-		<h3>Recent Achevements</h3>
-		<div class="gallery">
-			<a class="item" href="">
-				<img src="img/panzura-thumb.jpg" alt"">
-				<span class="overlay">
-						<h4>Date</h4>
-						<span>Achevement Name</span>
-					</span>
-			</a>
-			<a class="item" href="">
-				<img src="img/blueshift-thumb.jpg" alt"">
-				<span class="overlay">
-						<h4>1/22/2017</h4>
-						<span>Achevement Name</span>
-					</span>
-			</a>
-			<a class="item" href="">
-				<img src="img/tempus-thumb.jpg" alt"">
-				<span class="overlay">
-						<h4>2/30/2016</h4>
-						<span>Achevement Name</span>
-					</span>
-			</a>
-			<a class="item" href="">
-				<img src="img/mesa-thumb.jpg" alt"">
-				<span class="overlay">
-						<h4>8/2/2016</h4>
-						<span>Achevement Name</span>
-					</span>
-			</a>
-		</div>
-	</div>
-	<aside>
-	</aside>
-
-	<footer id="footer">
-		&copy; 2017 Nick Burnette All Rights Reserved
-	</footer>
+<!-- FOG LAYERS (your images) -->
+<div class="background-image"></div>
+<div id="fog">
+  <div class="fog-container">
+    <div class="fog-img fog-img-1"></div>
+    <div class="fog-img fog-img-2"></div>
+  </div>
 </div>
-<!-- jQuery -->
-<script src="js/jquery.min.js"></script>
-<!-- jQuery Easing -->
-<script src="js/jquery.easing.1.3.js"></script>
-<!-- Bootstrap -->
-<script src="js/bootstrap.min.js"></script>
-<!-- Carousel -->
-<script src="js/owl.carousel.min.js"></script>
-<!-- Stellar -->
-<script src="js/jquery.stellar.min.js"></script>
-<!-- Waypoints -->
-<script src="js/jquery.waypoints.min.js"></script>
-<!-- Counters -->
-<script src="js/jquery.countTo.js"></script>
 
-<!-- Background -->
-<script src="js/particles.js"></script>
-<script src="js/app.js"></script>
-<!-- MAIN JS -->
-<script src="js/main.js"></script>
-<!-- particles.js container -->
-<div id="particles-js"></div>
-<!-- scripts -->
-<script src="../particles.js"></script>
-<script src="js/app.js"></script>
-<!-- stats.js -->
-<script src="js/lib/stats.js"></script>
+<nav>
+  <span class="nav-logo" onclick="navigateTo('')">
+    <svg
+      class="logo"
+      viewBox="0 0 110 110"
+      width="48"
+      height="48"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-label="Home"
+      role="img"
+    >
+      <!-- N -->
+      <path
+        d="M20 20 V100 H38 V52 L78 100 H96 V20 H78 V68 L38 20 Z"
+        fill="var(--accent-color)"
+      />
 
+      <!-- Pixels -->
+      <rect class="static" x="86" y="20" width="10" height="10" fill="var(--logo-corner)"/>
+      <rect class="pixel idle-1 scatter-1" x="85" y="20" width="10" height="10" fill="var(--accent-color)"/>
+      <rect class="pixel idle-2 scatter-2" x="86" y="20" width="10" height="10" fill="var(--accent-color)"/>
+      <rect class="pixel idle-3 scatter-3" x="86" y="20" width="10" height="10" fill="var(--accent-color)"/>
+    </svg>
+  </span>
+  <ul class="nav-links">
+    <li><a href="#" onclick="navigateTo(''); window.scrollTo({top:0,behavior:'smooth'}); return false;">Home</a></li>
+    <li><a href="#" onclick="navigateTo(''); document.getElementById('projectsSection').scrollIntoView({behavior:'smooth'}); return false;">Projects</a></li>
+    <li><a href="#" onclick="navigateTo(''); document.getElementById('aboutSection').scrollIntoView({behavior:'smooth'}); return false;">About</a></li>
+  </ul>
+</nav>
+
+<!-- MAIN VIEW -->
+<div id="mainView">
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1 class="hero-name" id="heroName">
+        <span id="typedText"></span><span class="typed-cursor" id="cursor"></span>
+      </h1>
+      <p class="hero-tagline">
+        I take a proactive approach to building software that reduces friction for the people who use it — writing tested, performant code and simplifying workflows before problems surface, not after.
+      </p>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projectsSection">
+    <div class="section-bg"></div>
+
+    <!-- STICKY FILTER BAR — lives inside projects section so sticky scopes naturally -->
+    <div id="filterBar">
+      <span class="filter-label">Filter</span>
+      <div class="filter-divider"></div>
+      <span class="skill-tag" data-skill="C#" onclick="filterSkill(this)">C#</span>
+      <span class="skill-tag" data-skill="SQL" onclick="filterSkill(this)">SQL</span>
+      
+      <span class="skill-tag" data-skill="PowerShell" onclick="filterSkill(this)">PowerShell</span>
+      <span class="skill-tag" data-skill="Cake" onclick="filterSkill(this)">Cake</span>
+      <span class="skill-tag" data-skill="Jenkins" onclick="filterSkill(this)">Jenkins</span>
+      <span class="skill-tag" data-skill="PowerBI" onclick="filterSkill(this)">PowerBI</span>
+      <div class="filter-divider"></div>
+      <span class="skill-tag familiar" data-skill="Python" onclick="filterSkill(this)">Python</span>
+      <span class="skill-tag familiar" data-skill="JavaScript" onclick="filterSkill(this)">JavaScript</span>
+      <span class="skill-tag familiar" data-skill="PostgreSQL" onclick="filterSkill(this)">PostgreSQL</span>
+      <span class="skill-tag familiar" data-skill="React" onclick="filterSkill(this)">React</span>
+      <span class="skill-tag familiar" data-skill="Docker" onclick="filterSkill(this)">Docker</span>
+      <span class="skill-tag familiar" data-skill="AWS" onclick="filterSkill(this)">AWS</span>
+      <span class="skill-tag familiar" data-skill="REST APIs" onclick="filterSkill(this)">REST APIs/SOAP APIs</span>
+      <!-- <span class="skill-tag familiar" data-skill="Dapper" onclick="filterSkill(this)">Dapper</span> -->
+      <span class="skill-tag familiar" data-skill="HTML/CSS" onclick="filterSkill(this)">HTML/CSS</span>
+    </div>
+
+    <div class="section-content">
+      <p class="section-label">Selected Work</p>
+      <p class="filter-active-hint" id="filterHint"></p>
+      <div class="no-projects-msg" id="noProjectsMsg"></div>
+      <div class="projects-grid" id="projectsGrid">
+
+        <div class="project-card" data-skills="C#,SQL,PowerShell" onclick="navigateTo('project/ncache')">
+          <div class="project-tech">
+            <span class="tech-badge">C#</span><span class="tech-badge">SQL</span><span class="tech-badge">PowerShell</span>
+          </div>
+          <h2 class="project-title">Caching Layer Replacement</h2>
+          <p class="project-summary">Replaced a discontinued Microsoft caching system under deadline pressure for a high-traffic billing platform handling hundreds of database queries per second.</p>
+          <div class="project-outcome">
+            <svg class="outcome-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+            <span class="outcome-text">Self-healing cache — zero manual intervention required on failure</span>
+          </div>
+          <button class="project-cta">View case study <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+        </div>
+
+        <div class="project-card" data-skills="C#,Cake,Jenkins,PowerShell" onclick="navigateTo('project/installer')">
+          <div class="project-tech">
+            <span class="tech-badge">C#</span><span class="tech-badge">Cake</span><span class="tech-badge">Jenkins</span><span class="tech-badge">PowerShell</span>
+          </div>
+          <h2 class="project-title">Automated Build & Installer Pipeline</h2>
+          <p class="project-summary">Designed and built a complete deployment pipeline from scratch for a multi-component billing platform — eliminating a 2–4 hour manual process prone to errors on every patch.</p>
+          <div class="project-outcome">
+            <svg class="outcome-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span class="outcome-text">Deployment time reduced from 2–4 hours to 5 minutes per server</span>
+          </div>
+          <button class="project-cta">View case study <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+        </div>
+
+        <div class="project-card" data-skills="C#,SQL,Dapper" onclick="navigateTo('project/automation')">
+          <div class="project-tech">
+            <span class="tech-badge">SQL</span><span class="tech-badge">C#</span><span class="tech-badge">Dapper</span>
+          </div>
+          <h2 class="project-title">Data Correction Automation</h2>
+          <p class="project-summary">Eliminated a category of manual support work consuming 2.5 full-time employees — fixing root causes, automating what remained, and empowering power users to self-serve.</p>
+          <div class="project-outcome">
+            <svg class="outcome-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            <span class="outcome-text">2.5 FTE daily workload reduced to a single support person, 88% automated</span>
+          </div>
+          <button class="project-cta">View case study <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+        </div>
+
+        <div class="project-card" data-skills="SQL,C#,PowerBI,Dapper" onclick="navigateTo('project/powerbi')">
+          <div class="project-tech">
+            <span class="tech-badge">PowerBI</span><span class="tech-badge">DAX</span><span class="tech-badge">SQL</span><span class="tech-badge">C#</span>
+          </div>
+          <h2 class="project-title">Interactive Reporting Suite</h2>
+          <p class="project-summary">Redesigned 13 static SSRS reports into interactive PowerBI dashboards — built from customer discovery sessions and user conferences to solve real workflow pain points.</p>
+          <div class="project-outcome">
+            <svg class="outcome-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+            <span class="outcome-text">Gave users work-progress visibility and manager-level performance insight for the first time</span>
+          </div>
+          <button class="project-cta">View case study <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="aboutSection">
+    <div class="section-bg"></div>
+    <div class="section-content" style="max-width:640px">
+      <p class="section-label">About</p>
+      <p style="font-size:1rem;line-height:1.9;color:var(--text-muted);margin-bottom:1.5rem">
+        I'm a software developer who believes the best code is the kind nobody notices — because it just works, every time, without getting in anyone's way.
+      </p>
+      <p style="font-size:1rem;line-height:1.9;color:var(--text-muted);margin-bottom:1.5rem">
+        I work well independently and thrive in ambiguous environments. My teammates know they can count on me to unblock them first before moving on to my own work — and my customers have come to expect warm, clear communication at every step.
+      </p>
+      <p style="font-size:1rem;line-height:1.9;color:var(--text-muted)">
+        Currently open to new opportunities.
+      </p>
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-text">Nick Burnette — Software Developer</span>
+  </footer>
+
+</div><!-- /#mainView -->
+
+<!-- DETAIL VIEW -->
+<div id="detailView">
+  <div class="detail-bg"></div>
+  <div class="detail-inner">
+    <button class="back-btn" onclick="navigateTo('')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back to portfolio
+    </button>
+    <div id="detailContent"></div>
+  </div>
+</div>
+
+<script>
+  /* PROJECT DATA */
+  const projects = {
+    ncache: {
+      title: "Caching Layer Replacement",
+      stack: ["C#", "SQL", "PowerShell"],
+      problem: "When Microsoft discontinued App Fabric with no replacement, I was tasked with quickly replacing the caching layer for a high-traffic billing platform handling hundreds of database queries per second before the deprecation deadline.",
+      role: "I designed and implemented a full NCache integration — identifying what data needed to be cached and architecting cross-server cache calls that reduced licensing costs by consolidating the number of nodes required under NCache's pricing model. I also built a health monitor to ensure cache accuracy at all times, along with self-healing logic that automatically corrects missing or stale data without manual intervention.",
+      outcome: "The system remains stable even if the cache goes down entirely, recovering automatically without any manual intervention. The cross-server architecture also reduced NCache licensing costs compared to a node-per-server approach.",
+      metrics: [
+        { value: "100s/sec", label: "Database queries served from cache" },
+        { value: "Zero", label: "Manual interventions on failure" },
+        { value: "Reduced", label: "NCache licensing cost" }
+      ]
+    },
+    installer: {
+      title: "Automated Build & Installer Pipeline",
+      stack: ["C#", "Cake", "Jenkins", "PowerShell"],
+      problem: "Deployments across a multi-component billing platform — a tenanted application, SOAP and REST APIs, an operational database, and a reporting database — were entirely manual. Engineers had to build the solution by hand, copy folders onto the server, and update configurations individually, a process that took 2–4 hours per server and introduced errors on nearly every patch.",
+      role: "I designed and built a complete build and installer pipeline from scratch. Using Cake, I compiled all four components and extracted only the files needed for shipping. A version-sync system compared the application and database versions on every install, clearly flagging when a database update was needed to stay in sync. A small .NET application generated the MSI and its configuration, while a Windows Forms installer handled each component independently for multi-server configurations — managing registry entries, log paths, challenge passwords, and API URLs.",
+      outcome: "The entire process was automated in Jenkins, producing just 3 files capable of deploying the entire solution for any supported configuration. Deployment time dropped from 2–4 hours to 5 minutes per server, and deployment-related issues went from nearly every patch to roughly one per year.",
+      metrics: [
+        { value: "5 min", label: "Deployment time (was 2–4 hrs)" },
+        { value: "3 files", label: "Full solution deployable" },
+        { value: "~1/yr", label: "Deployment issues (was every patch)" }
+      ]
+    },
+    automation: {
+      title: "Data Correction Automation",
+      stack: ["SQL", "C#", "Dapper"],
+      problem: "Manual data correction requests were consuming the equivalent of 2.5 full-time employees, with 5–10 requests coming in daily requiring developer involvement to investigate and hand-edit records — introducing risk of human error on every change.",
+      role: "I reviewed the most common request types, fixing root causes where possible and designing targeted automation scripts for the remainder. Requests that couldn't be prevented were given automated scripts that support staff could run in seconds — identify the record, run the script, resolve the ticket. For appropriate cases, I extended this further by surfacing fixes directly inside the application behind an access right, allowing power users to resolve their own data entry mistakes without involving support at all.",
+      outcome: "Requests dropped from 5–10 daily handled by 2.5 employees to 1–2 daily manageable by a single support person, with 88% of remaining requests fully automated. Developer time shifted from reactive data fixes back to feature development.",
+      metrics: [
+        { value: "88%", label: "Remaining requests automated" },
+        { value: "2.5→0.5", label: "FTEs on corrections" },
+        { value: "5→1", label: "Daily requests" }
+      ]
+    },
+    powerbi: {
+      title: "Interactive Reporting Suite",
+      stack: ["PowerBI", "DAX", "SQL", "C#"],
+      problem: "Customers were struggling to get meaningful insights from static SSRS reports that weren't designed around how they actually worked.",
+      role: "Rather than simply modernizing the visuals, I attended user conferences to observe real workflows and ran discovery sessions where users brainstormed what would actually help them — then consolidated that feedback into a prioritized design. The result was 13 new interactive PowerBI dashboards with live filtering, drill-down capability, and visualizations built around tracking work completion against the month, monitoring collection percentages, and giving managers visibility into individual employee output. The reports were embedded inside the application through a custom API integration with Microsoft's PowerBI that extracted each user's session to enforce the tenanted security model automatically.",
+      outcome: "Report-related support questions dropped from 5 a month to 1, but the more meaningful outcome was giving users capabilities they never had before — including work progress tracking and manager-level performance visibility.",
+      metrics: [
+        { value: "13", label: "New interactive reports" },
+        { value: "5→1", label: "Monthly support questions" },
+        { value: "New", label: "Manager visibility features" }
+      ]
+    }
+  };
+
+  /* STATE */
+  let activeSkill = null;
+  let savedScrollY = 0;
+
+  /* URL HASH ROUTER */
+  function parseHash() {
+    const raw = window.location.hash.replace('#', '');
+    const [path, query] = raw.split('?');
+    const params = {};
+    if (query) query.split('&').forEach(p => { const [k,v] = p.split('='); params[k] = decodeURIComponent(v||''); });
+    return { path: path || '', params };
+  }
+
+  function buildUrl(path, skill) {
+    // Build URL string without triggering browser scroll-to-anchor.
+    // Uses the query string (?project=x&filter=y) instead of hash so
+    // history.pushState / replaceState can update the bar silently.
+    const params = new URLSearchParams();
+    if (path) params.set('project', path);
+    if (skill) params.set('filter', skill);
+    const qs = params.toString();
+    return qs ? `?${qs}` : window.location.pathname;
+  }
+
+  function navigateTo(path, skill) {
+    // skill param: undefined = keep current, null = clear, string = set
+    const currentSkill = skill === undefined ? activeSkill : skill;
+
+    if (path.startsWith('project/')) {
+      // Opening a case study — push so back button works
+      history.pushState({ path, skill: currentSkill }, '', buildUrl(path, currentSkill));
+      activeSkill = currentSkill;
+      const id = path.replace('project/', '');
+      if (projects[id]) renderDetail(id);
+    } else {
+      // Home / filter change — replace so we don't pollute history
+      history.replaceState({ path: '', skill: currentSkill }, '', buildUrl('', currentSkill));
+      activeSkill = currentSkill;
+      applyFilter(currentSkill);
+      showMainView();
+    }
+  }
+
+  function handleRoute() {
+    // Read state from history (set by navigateTo) or fall back to URL params
+    // on first load / hard refresh.
+    const state = history.state;
+    const urlParams = new URLSearchParams(window.location.search);
+    const path   = state?.path   ?? urlParams.get('project') ?? '';
+    const skill  = state?.skill  ?? urlParams.get('filter')  ?? null;
+
+    activeSkill = skill;
+    applyFilter(skill);
+
+    if (path.startsWith('project/')) {
+      const id = path.replace('project/', '');
+      if (projects[id]) { renderDetail(id); return; }
+    }
+    showMainView();
+  }
+
+  // popstate fires when back/forward buttons are used
+  window.addEventListener('popstate', handleRoute);
+  window.addEventListener('DOMContentLoaded', handleRoute);
+
+  /*
+     PARALLAX — requestAnimationFrame, no lag
+     Targets fog.css .background-image element
+  */
+  let ticking = false;
+  let lastScrollY = 0;
+  const bgEl = document.querySelector('.background-image');
+
+  function updateParallax() {
+    if (bgEl) bgEl.style.transform = `translateY(${lastScrollY * 0.18}px)`;
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    lastScrollY = window.scrollY;
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }, { passive: true });
+
+  /* TYPED ANIMATION */
+  const fullName = "Nick Burnette";
+  const tagline  = "Building software that gets out of people's way.";
+  let charIdx = 0, phase = 0;
+
+  function initTyping() {
+    const el = document.getElementById('typedText');
+    const container = document.getElementById('heroName');
+
+    // Render the complete final text invisibly to measure its true height,
+    // then lock that height on the container before clearing and typing.
+    el.innerHTML = fullName + '<br><em>' + tagline + '</em>';
+    const fullHeight = container.scrollHeight;
+    container.style.minHeight = fullHeight + 'px';
+
+    // Clear and start typing
+    el.innerHTML = '';
+    setTimeout(type, 900);
+  }
+
+  function type() {
+    const el = document.getElementById('typedText');
+    if (phase === 0) {
+      el.innerHTML = fullName.slice(0, charIdx);
+      charIdx++;
+      if (charIdx > fullName.length) { phase = 1; setTimeout(type, 900); return; }
+      setTimeout(type, charIdx === 1 ? 500 : 72);
+    } else if (phase === 1) {
+      el.innerHTML = fullName + '<br>';
+      charIdx = 0; phase = 2;
+      setTimeout(type, 120);
+    } else if (phase === 2) {
+      el.innerHTML = fullName + '<br><em>' + tagline.slice(0, charIdx) + '</em>';
+      charIdx++;
+      if (charIdx > tagline.length) { document.getElementById('cursor').style.display = 'none'; return; }
+      setTimeout(type, 38);
+    }
+  }
+
+  // Wait for fonts to load before measuring so clamp() font sizes are accurate
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(initTyping);
+  } else {
+    setTimeout(initTyping, 300);
+  }
+
+  /* SKILL FILTER */
+  function filterSkill(el) {
+    const skill = el.dataset.skill;
+    const newSkill = (activeSkill === skill) ? null : skill;
+    navigateTo('', newSkill);
+  }
+
+  function applyFilter(skill) {
+    // sync filter bar tag highlights
+    document.querySelectorAll('.skill-tag').forEach(t => {
+      t.classList.toggle('active', t.dataset.skill === skill);
+    });
+
+    // check if any cards match
+    const cards = document.querySelectorAll('.project-card');
+    let hasMatch = false;
+    cards.forEach(card => {
+      if (skill !== null && card.dataset.skills.split(',').includes(skill)) hasMatch = true;
+    });
+
+    // dim cards only when there are matches — no matches means show all undimmed
+    cards.forEach(card => {
+      const matches = skill !== null && card.dataset.skills.split(',').includes(skill);
+      card.classList.toggle('dimmed', skill !== null && hasMatch && !matches);
+    });
+
+    // highlight matching tech badges on cards
+    document.querySelectorAll('.tech-badge').forEach(badge => {
+      badge.classList.toggle('active-skill',
+        skill !== null && badge.textContent.trim().toUpperCase() === skill.toUpperCase()
+      );
+    });
+
+    // filter hint line
+    const hint = document.getElementById('filterHint');
+    hint.innerHTML = skill
+      ? `Filtering by <strong style="color:var(--accent-color)">${skill}</strong> — <a href="#" onclick="navigateTo('',null);return false;">clear filter</a>`
+      : '';
+
+    // no-projects message box above grid
+    const msg = document.getElementById('noProjectsMsg');
+    const noMatch = skill !== null && !hasMatch;
+    if (noMatch) {
+      msg.innerHTML = `<strong>${skill}</strong> is in my toolkit — no case study yet, but it's on the list. Check back soon.`;
+      msg.classList.add('visible');
+      // scroll so the message lands just below the sticky filter bar
+      setTimeout(() => {
+        const navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 60;
+        const filterH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--filter-h')) || 64;
+        const top = msg.getBoundingClientRect().top + window.scrollY - navH - filterH - 16;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }, 50);
+    } else {
+      msg.innerHTML = '';
+      msg.classList.remove('visible');
+    }
+  }
+
+  /* VIEWS */
+  function showMainView(restoreScroll = true) {
+    const wasInDetail = document.getElementById('detailView').classList.contains('active');
+    document.getElementById('mainView').classList.remove('hidden');
+    document.getElementById('detailView').classList.remove('active');
+    // Only restore scroll when returning from a case study, not on filter/home nav
+    if (restoreScroll && wasInDetail) {
+      requestAnimationFrame(() => window.scrollTo(0, savedScrollY));
+    }
+  }
+
+  function renderDetail(id) {
+    savedScrollY = window.scrollY;
+    const p = projects[id];
+    document.getElementById('mainView').classList.add('hidden');
+    const dv = document.getElementById('detailView');
+    dv.classList.add('active');
+    window.scrollTo(0, 0);
+
+    document.getElementById('detailContent').innerHTML = `
+      <p class="detail-eyebrow">Case Study</p>
+      <h1 class="detail-title">${p.title}</h1>
+      <div class="detail-stack">${p.stack.map(s => `<span class="tech-badge">${s}</span>`).join('')}</div>
+      <p class="detail-section-label">The Problem</p>
+      <p class="detail-body">${p.problem}</p>
+      <p class="detail-section-label">My Role</p>
+      <p class="detail-body">${p.role}</p>
+      <p class="detail-section-label">Outcome</p>
+      <p class="detail-body">${p.outcome}</p>
+      <div class="metrics-row">${p.metrics.map(m => `
+        <div class="metric-card">
+          <div class="metric-value">${m.value}</div>
+          <div class="metric-label">${m.label}</div>
+        </div>`).join('')}
+      </div>
+    `;
+  }
+</script>
 </body>
 </html>
