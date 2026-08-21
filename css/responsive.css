@@ -1,0 +1,18 @@
+/* ============================================================
+   RESPONSIVE — mobile/narrow-viewport overrides.
+   Kept separate so breakpoints are easy to find and extend.
+   ============================================================ */
+
+@media (max-width: 640px) {
+    nav, #filterBar {
+		padding: 0 1.25rem;
+	}
+    .hero-content, .section, footer {
+		padding-left: 1.25rem;
+		padding-right: 1.25rem;
+	}
+    #detailView {
+		padding-left: 1.25rem;
+		padding-right: 1.25rem;
+	}
+}

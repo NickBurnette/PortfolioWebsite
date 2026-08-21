@@ -1,0 +1,252 @@
+/* ============================================================
+   BASE — reset, design tokens, global layout scaffolding
+   (nav, hero, section wrapper, footer). Component-level styles
+   (cards, filter bar, detail view) live in components.css.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root{
+	/* ── COLORS ── */
+	--primary-color: #6d6c6c;
+	--text-color: #e8e0d5;
+	--text-muted: rgba(232,224,213,0.6);
+	--text-faint: rgba(232,224,213,0.35);
+	--border: rgba(232,224,213,0.1);
+
+	--accent-color: rgb(212, 147, 90);
+	--accent-dim: rgba(212, 147, 90, 0.15);
+	--accent-border: rgba(212, 147, 90, 0.3);
+	--accent-shadow: rgba(212, 147, 90, 0.2);
+
+	/* secondary accent — reserved for personal/learning-project signaling only */
+	--learn-color: rgb(122, 158, 149);
+	--learn-dim: rgba(122, 158, 149, 0.15);
+	--learn-border: rgba(122, 158, 149, 0.35);
+
+	--background-color: rgb(26, 23, 20);
+	--transparent-bg-color: rgba(0, 0, 0, 0.7); /* not used */
+
+  --nav-background: rgba(26, 23, 20, 0.75);
+  --logo-corner: rgba(26, 23, 20, 1); /* used for the static corner pixel in the logo. Needs to make nav-background without opacity */
+
+	/* ── FONTS ── */
+	/* Swap these to re-theme typography sitewide. Update the Google Fonts
+	   <link> in <head> if you choose fonts not already loaded. */
+	--font-display: system-ui, serif;   /* headings, names, metrics */
+	--font-body: 'DM Sans', sans-serif;   /* body text, nav, buttons */
+
+	/* ── LAYOUT ── */
+	--nav-h: 60px;
+	--filter-h: 64px;
+}
+html {
+	scroll-behavior: smooth;
+	height: 100%;
+}
+body {
+	background: var(--background-color);
+	color: var(--text-color);
+	font-family: var(--font-body);
+	font-weight: 300;
+	overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+	position: fixed;
+	top: 0; left: 0; right: 0;
+	height: var(--nav-h);
+	z-index: 200;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 1rem;
+	background: rgba(26,23,20,0.75);
+	backdrop-filter: blur(14px);
+	border-bottom: 0.5px solid rgba(232,224,213,0.08);
+}
+.nav-logo {
+	color: var(--text-color);
+	cursor: pointer;
+}
+/* Logo fills are set via CSS variables directly on each SVG element's
+   fill attribute (var(--accent-color), var(--primary-color)) so they
+   automatically follow palette changes in :root */
+.nav-links {
+	display: flex;
+	gap: 2rem;
+	list-style: none;
+}
+.nav-links a {
+	color: var(--text-muted);
+	text-decoration: none;
+	font-size: 1rem;
+	font-weight: 400;
+	letter-spacing: 0.1em;
+	text-transform: uppercase;
+	transition: color 0.2s;
+}
+.nav-links a:hover {
+	color: var(--accent-color);
+}
+/* Base pixel style */
+.pixel {
+	transition: transform 220ms cubic-bezier(.2,.8,.2,1), opacity 220ms ease;
+	transform-origin: center;
+}
+/* Scatter Effect */
+.logo:hover .scatter-1 { transform: translate(1px, -15px); }
+.logo:hover .scatter-2 { transform: translate(13px, -20px); }
+.logo:hover .scatter-3 { transform: translate(12px, 2px); }
+
+/* ── HERO ── */
+.hero {
+	position: relative;
+	height: 100vh;
+	min-height: 600px;
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+}
+.hero-bg {
+	display: none;
+}
+.hero-overlay {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+	to bottom,
+	rgba(26,23,20,0.1) 0%,
+	rgba(26,23,20,0.0) 35%,
+	rgba(26,23,20,0.65) 78%,
+	rgba(26,23,20,1) 100%
+	);
+}
+.hero-content {
+	position: relative;
+	z-index: 2;
+	padding: 0 2.5rem;
+	max-width: 860px;
+}
+.hero-eyebrow {
+	font-size: 0.9rem;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	color: var(--accent-color);
+	margin-bottom: 1.25rem;
+	opacity: 0;
+	animation: fadeUp 0.6s ease forwards 0.3s;
+}
+.hero-name {
+	font-family: var(--font-display);
+	font-size: clamp(3rem, 7vw, 5.5rem);
+	line-height: 1.05;
+	color: #f5ede3;
+	margin-bottom: 1.5rem;
+	letter-spacing: -0.02em;
+	opacity: 0;
+	animation: fadeUp 0.7s ease forwards 0.5s;
+	/* height is set dynamically by JS before typing starts */
+}
+.hero-name em {
+	font-style: italic;
+  color: var(--accent-color);
+  font-weight: 300;
+}
+.hero-tagline {
+	font-size: 1rem;
+	line-height: 1.8;
+	color: rgba(232,224,213,0.75);
+	max-width: 580px;
+	font-weight: 300;
+	border-left: 2px solid var(--accent-color);
+	padding-left: 1.25rem;
+	opacity: 0;
+	animation: fadeUp 1s ease forwards 0.9s;
+}
+.typed-cursor {
+	display: inline-block;
+	width: 3px; height: 0.85em;
+	background: var(--accent-color);
+	margin-left: 4px;
+	vertical-align: middle;
+	animation: blink 0.9s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+@keyframes fadeUp {
+	from { opacity:0; transform: translateY(16px); }
+	to   { opacity:1; transform: translateY(0); }
+}
+.scroll-hint {
+	position: absolute;
+	bottom: 2rem; left: 50%;
+	transform: translateX(-50%);
+	z-index: 2;
+	display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+	opacity: 0;
+	animation: fadeUp 0.6s ease forwards 2s;
+}
+.scroll-hint span {
+	font-size: 0.65rem;
+	letter-spacing: 0.15em;
+	text-transform: uppercase;
+	color: var(--text-faint);
+}
+.scroll-line {
+	width: 1px;
+	height: 40px;
+	background: linear-gradient(to bottom, var(--accent-color), transparent);
+	animation: scrollPulse 2s ease-in-out infinite;
+}
+@keyframes scrollPulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+
+/* ── SECTION WRAPPER ── */
+.section {
+  padding: 4.5rem 2.5rem;
+  position: relative;
+  background: rgba(20,17,14,0.72);
+  backdrop-filter: blur(2px);
+}
+.section-bg {
+	display: none;
+}
+.section-content {
+	position: relative;
+	z-index: 1;
+	max-width: 1100px;
+	margin: 0 auto;
+}
+.section-label {
+	font-size: 0.9rem;
+	letter-spacing: 0.2em;
+	text-transform: uppercase;
+	color: var(--accent-color);
+	margin-bottom: 0.1rem;
+	font-weight: 500;
+}
+#aboutSection {
+	border-top: 0.5px solid var(--border);
+}
+#mainView.hidden {
+	display: none;
+}
+
+/* ── FOOTER ── */
+footer {
+	padding: 2rem 2.5rem;
+	border-top: 0.5px solid var(--border);
+	display: flex;
+  justify-content: space-between;
+  align-items: center;
+	flex-wrap: wrap; gap: 0.5rem;
+	background: var(--nav-background);
+}
+.footer-text {
+	font-size: 0.78rem;
+	color: var(--text-faint);
+}
+.footer-text a {
+	color: var(--accent-color);
+	text-decoration: none;
+}
